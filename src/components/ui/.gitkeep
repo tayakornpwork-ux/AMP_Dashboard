@@ -1,0 +1,3 @@
+# shadcn/ui components จะถูก generate ลงที่นี่โดย CLI
+# คำสั่ง: npx shadcn@latest add <component>
+# ห้ามแก้ไข components ในโฟลเดอร์นี้โดยตรง — ให้ extend ใน shared/ แทน
