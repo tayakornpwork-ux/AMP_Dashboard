@@ -25,6 +25,9 @@ dist/
 *.tsbuildinfo
 next-env.d.ts
 
+# Claude Code
+.claude/
+
 # Misc
 .DS_Store
 *.pem
