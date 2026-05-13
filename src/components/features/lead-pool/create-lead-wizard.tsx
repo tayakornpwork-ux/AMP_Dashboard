@@ -243,7 +243,17 @@ function FieldLabel({ children, required }: { children: React.ReactNode; require
 
 export function CreateLeadWizard() {
   const router = useRouter()
-  const [form, setForm] = useState<FormData>({ ...EMPTY_FORM })
+  const [form, setForm] = useState<FormData>(() => {
+    if (typeof window === "undefined") return { ...EMPTY_FORM }
+    const raw = sessionStorage.getItem("lead-draft")
+    if (!raw) return { ...EMPTY_FORM }
+    try {
+      const stored = JSON.parse(raw)
+      return { ...EMPTY_FORM, ...stored, documents: [] }
+    } catch {
+      return { ...EMPTY_FORM }
+    }
+  })
   const [fieldErrors, setFieldErrors] = useState<Partial<Record<keyof FormData, string>>>({})
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -347,7 +357,7 @@ export function CreateLeadWizard() {
       })
     )
     sessionStorage.setItem("lead-draft", JSON.stringify({ ...form, documents: serializedDocs }))
-    router.push("/lead-pool/create/success")
+    router.push("/lead-pool/create/summary")
   }
 
   function handleFiles(files: FileList | null) {
